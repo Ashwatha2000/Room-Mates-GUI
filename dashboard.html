@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Floating Upper Tab -->
+    <nav class="navbar">
+        <div class="navbar-left">
+          <img src="NUlogo.png" alt="University Logo" class="logo">
+          <span class="brand">ROOM & MATES</span>
+        </div>
+        <div class="navbar-links">
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+      <div class="text">
+        <h1 style="color: white;">Welcome to Northeastern Housing & Roommate Finder</h1>
+        <p>
+          Find accommodation and roommates that match your preferences and make your university living experience hassle-free.
+        </p>
+      </div>
+      <div class="main-container">
+        
+        <div class="husky-image" style="display: block;">
+          <img src="mascot.png" alt="Husky Mascot">
+        </div>
+    <div class="container">
+        <div class="form-box">
+            <h1>Welcome to the Dashboard</h1>
+            <button onclick="window.location.href='student.html'">Student Admin</button>
+            <button onclick="window.location.href='owner.html'">Owner</button>
+        </div>
+    </div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+    const images = [
+      "bg1.webp",
+      "bg2.jpg",
+      "bg3.jpg",
+      "bg4.jpg",
+      "bg5.jpg",
+      "bg6.jpg",
+    ];
+  
+    const slideshowContainer = document.getElementById("background-slideshow");
+  
+    // Create image elements
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (index === 0) img.classList.add("active"); // First image is active
+      slideshowContainer.appendChild(img);
+    });
+  
+    const imgElements = document.querySelectorAll("#background-slideshow img");
+    let currentIndex = 0;
+  
+    setInterval(() => {
+      imgElements[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length; // Move to the next image
+      imgElements[currentIndex].classList.add("active");
+    }, 1500); // Change every 1.5 seconds
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roommate Records</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('bg3.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        .table-container {
+            display: none; /* Initially hidden */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .editable-form input, .editable-form select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Button to Load Records -->
+    <div class="button-container">
+        <button onclick="loadRecords()">View Records</button>
+        <button onclick="window.location.href = '/dashboard.html';">Dashboard</button>
+
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container" id="tableContainer">
+        <h1>Roommate Records</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>PersonID</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Address</th>
+                    <th>Gender</th>
+                    <th>Languages</th>
+                    <th>Work Experience</th>
+                    <th>Food Habit</th>
+                    <th>Cleanliness Habit</th>
+                    <th>Cooking Skills</th>
+                    <th>Hobbies</th>
+                    <th>Personality</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="recordTableBody">
+                <!-- Records will be dynamically inserted here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function loadRecords() {
+            const tableContainer = document.getElementById('tableContainer');
+            const tableBody = document.getElementById('recordTableBody');
+
+            try {
+                // Fetch records from the server
+                const response = await fetch('/get-roommates');
+                if (!response.ok) {
+                    throw new Error('Failed to load records');
+                }
+                const records = await response.json();
+
+                // Populate the table with records
+                tableBody.innerHTML = '';
+                records.forEach(record => {
+                    const row = document.createElement('tr');
+                    row.setAttribute('data-personid', record.PersonID);
+
+                    // Populate row with data
+                    Object.keys(record).forEach(key => {
+                        const cell = document.createElement('td');
+                        cell.textContent = record[key];
+                        row.appendChild(cell);
+                    });
+
+                    // Action buttons (Delete and Update)
+                    const actionCell = document.createElement('td');
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.onclick = () => deleteRecord(record.PersonID);
+                    actionCell.appendChild(deleteButton);
+
+                    const updateButton = document.createElement('button');
+                    updateButton.textContent = 'Update';
+                    updateButton.onclick = () => editRecord(record);
+                    actionCell.appendChild(updateButton);
+
+                    row.appendChild(actionCell);
+                    tableBody.appendChild(row);
+                });
+
+                // Show the table container
+                tableContainer.style.display = 'block';
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while loading records.');
+            }
+        }
+
+        async function deleteRecord(id) {
+            try {
+                const response = await fetch(`/delete-roommate/${id}`, { method: 'DELETE' });
+                if (!response.ok) {
+                    throw new Error('Failed to delete record');
+                }
+                loadRecords(); // Reload records after deletion
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while deleting the record.');
+            }
+        }
+
+        function editRecord(record) {
+            const tableBody = document.getElementById('recordTableBody');
+            const row = document.createElement('tr');
+            row.setAttribute('data-personid', record.PersonID);
+
+            // First, render PersonID as a non-editable cell
+            const personIDCell = document.createElement('td');
+            personIDCell.textContent = record.PersonID; // Display PersonID as text
+            row.appendChild(personIDCell);
+
+            // Editable form creation (skip 'PersonID' field)
+            Object.keys(record).forEach(key => {
+                if (key === 'PersonID') return; // Skip PersonID (already rendered)
+
+                const cell = document.createElement('td');
+
+                // Handle special cases for fields like 'Gender' or 'DOB'
+                if (key === 'Gender') {
+                    const select = document.createElement('select');
+                    ['Male', 'Female', 'Other'].forEach(optionValue => {
+                        const option = document.createElement('option');
+                        option.value = optionValue;
+                        option.textContent = optionValue;
+                        if (record[key] === optionValue) option.selected = true;
+                        select.appendChild(option);
+                    });
+                    cell.appendChild(select);
+                } else if (key === 'DOB') {
+                    const input = document.createElement('input');
+                    input.type = 'date';
+                    input.value = record[key];
+                    cell.appendChild(input);
+                } else {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = record[key];
+                    cell.appendChild(input);
+                }
+
+                row.appendChild(cell);
+            });
+
+            // Add Submit button
+            const actionCell = document.createElement('td');
+            const submitButton = document.createElement('button');
+            submitButton.textContent = 'Submit';
+            submitButton.onclick = () => saveRecord(record.PersonID, row);
+            actionCell.appendChild(submitButton);
+
+            row.appendChild(actionCell);
+
+            // Replace the old row with the new editable row
+            const originalRow = tableBody.querySelector(`tr[data-personid="${record.PersonID}"]`);
+            if (originalRow) {
+                tableBody.replaceChild(row, originalRow);
+            }
+        }
+
+
+        async function saveRecord(personID, row) {
+            const updatedData = {};
+            const cells = row.querySelectorAll('td');
+            const keys = [
+                'PersonID','Username', 'Password', 'FirstName', 'LastName', 'Email', 'Phone', 'DOB', 'Address', 'Gender',
+                'Languages', 'WorkExp', 'FoodHabit', 'CleanlinessHabit', 'CookingSkills', 'Hobbies', 'Personality','Action'
+            ];
+
+            cells.forEach((cell, index) => {
+                const input = cell.querySelector('input, select');
+                if (input) {
+                    updatedData[keys[index]] = input.value;
+                }
+            });
+            console.log(JSON.stringify(updatedData, null, 2));
+
+            try {
+                // Send the updated data to the server
+                const response = await fetch(`/update-roommate/${personID}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update record');
+                }
+
+                alert('Record updated successfully');
+                loadRecords(); // Reload the records after update
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while updating the record.');
+            }
+        }
+    </script>
+</body>
+</html>

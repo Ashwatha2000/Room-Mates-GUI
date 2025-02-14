@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Preferences</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('bg3.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container" id="preferencesForm">
+        <h1>Roommate Preferences</h1>
+        <form id="preferencesFormSubmit">
+            <label for="roomType">Room Type:</label>
+            <select id="roomType" name="roomType">
+                <option value="Single">Single</option>
+                <option value="Double">Double</option>
+            </select>
+
+            <label for="noOfRoommates">Number of Roommates:</label>
+            <input type="number" id="noOfRoommates" name="noOfRoommates" min="1">
+
+            <label for="apartmentType">Apartment Type:</label>
+            <select id="apartmentType" name="apartmentType">
+                <option value="Studio">Studio</option>
+                <option value="1BHK">1BHK</option>
+                <option value="2BHK">2BHK</option>
+                <option value="3BHK">3BHK</option>
+            </select>
+
+            <label for="rentRange">Rent Range:</label>
+            <input type="text" id="rentRange" name="rentRange" placeholder="e.g., 5000-10000" />
+
+            <label for="apartmentArea">Apartment Area (sq ft):</label>
+            <input type="number" id="apartmentArea" name="apartmentArea" />
+
+            <label for="roommateAge">Roommate Age Range:</label>
+            <input type="text" id="roommateAge" name="roommateAge" placeholder="e.g., 20-25" />
+
+            <label for="roommateCourse">Roommate Course (e.g., Engineering):</label>
+            <input type="text" id="roommateCourse" name="roommateCourse" />
+
+            <label for="roommateGender">Preferred Roommate Gender:</label>
+            <select id="roommateGender" name="roommateGender">
+                <option value="Any">Any</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+
+            <label for="roommateFoodHabits">Food Habits:</label>
+            <select id="roommateFoodHabits" name="roommateFoodHabits">
+                <option value="Vegetarian">Vegetarian</option>
+                <option value="Non-Vegetarian">Non-Vegetarian</option>
+                <option value="Vegan">Vegan</option>
+            </select>
+
+            <label for="roommateCleanlinessHabits">Cleanliness Habit:</label>
+            <select id="roommateCleanlinessHabits" name="roommateCleanlinessHabits">
+                <option value="Very Clean">Very Clean</option>
+                <option value="Clean">Clean</option>
+                <option value="Not Clean">Not Clean</option>
+            </select>
+
+            <label for="roommateOtherDetails">Other Details:</label>
+            <textarea id="roommateOtherDetails" name="roommateOtherDetails" rows="4" placeholder="Additional preferences"></textarea>
+
+            <button type="submit">Save Preferences</button>
+        </form>
+    </div>
+
+    <script>
+        // Form submission
+        document.getElementById('preferencesFormSubmit').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Collect form data
+            const formData = {
+                roomType: document.getElementById('roomType').value,
+                noOfRoommates: document.getElementById('noOfRoommates').value,
+                apartmentType: document.getElementById('apartmentType').value,
+                rentRange: document.getElementById('rentRange').value,
+                apartmentArea: document.getElementById('apartmentArea').value,
+                roommateAge: document.getElementById('roommateAge').value,
+                roommateCourse: document.getElementById('roommateCourse').value,
+                roommateGender: document.getElementById('roommateGender').value,
+                roommateFoodHabits: document.getElementById('roommateFoodHabits').value,
+                roommateCleanlinessHabits: document.getElementById('roommateCleanlinessHabits').value,
+                roommateOtherDetails: document.getElementById('roommateOtherDetails').value,
+            };
+
+            try {
+                // Send data to server
+                const response = await fetch('/set-preferences', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to save preferences');
+                }
+
+                alert('Preferences saved successfully!');
+                window.location.href = 'page2.html';  // Redirect back to page2 after submission
+
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while saving your preferences.');
+            }
+        });
+    </script>
+</body>
+</html>

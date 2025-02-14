@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner View</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Upper Tab -->
+    <nav class="navbar">
+        <div class="navbar-left">
+          <img src="NUlogo.png" alt="University Logo" class="logo">
+          <span class="brand">ROOM & MATES</span>
+        </div>
+        <div class="navbar-links">
+          <a href="/dashboard.html">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+    <div class="form-container" id="ownerViewContainer">
+        <h1>Owner Details</h1>
+
+        <div id="ownerDetails">
+            <!-- Owner details will be populated here -->
+        </div>
+
+        <button id="viewBtn" onclick="viewDetails()">View Details</button>
+        <button onclick="window.location.href = '/dashboard.html';">Dashboard</button>
+    </div>
+
+    <script>
+        // Function to fetch and display owner details
+        async function viewDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const ownerID = urlParams.get('ownerID'); // Get OwnerID from query string
+
+            if (!ownerID) {
+                alert('Owner ID is missing');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/get-owner-details?ownerID=${ownerID}`);
+                // if (!response.ok) {
+                //     throw new Error('Error fetching owner details');
+                // }
+
+                const owner = await response.json();
+
+                // Display owner details
+                let ownerHTML = `
+                    <p><strong>First Name:</strong> ${owner.FirstName}</p>
+                    <p><strong>Last Name:</strong> ${owner.LastName}</p>
+                    <p><strong>No. of Properties:</strong> ${owner.NoOfProperties}</p>
+                    <p><strong>Contact Mail:</strong> ${owner.ContactMail}</p>
+                    <p><strong>Office Hours:</strong> ${owner.OfficeHours}</p>
+                `;
+
+                // If Broker data exists, display it
+                if (owner.NoOfClients) {
+                    ownerHTML += `
+                        <h3>Broker Information</h3>
+                        <p><strong>No. of Clients:</strong> ${owner.NoOfClients}</p>
+                        <p><strong>License Number:</strong> ${owner.LicenseNumber}</p>
+                        <p><strong>Rating:</strong> ${owner.Rating}</p>
+                    `;
+                }
+
+                // If Property Manager data exists, display it
+                if (owner.NoOfPropertiesManaged) {
+                    ownerHTML += `
+                        <h3>Property Manager Information</h3>
+                        <p><strong>No. of Properties Managed:</strong> ${owner.NoOfPropertiesManaged}</p>
+                        <p><strong>SSN:</strong> ${owner.SSN}</p>
+                    `;
+                }
+
+                // Display the details
+                document.getElementById('ownerDetails').innerHTML = ownerHTML;
+
+                // Toggle buttons
+                document.getElementById('viewBtn').style.display = 'none';
+                document.getElementById('updateBtn').style.display = 'inline-block';
+            } catch (error) {
+                console.error(error);
+                // alert('Error fetching owner details');
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+    const images = [
+      "bg1.webp",
+      "bg2.jpg",
+      "bg3.jpg",
+      "bg4.jpg",
+      "bg5.jpg",
+      "bg6.jpg",
+    ];
+  
+    const slideshowContainer = document.getElementById("background-slideshow");
+  
+    // Create image elements
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (index === 0) img.classList.add("active"); // First image is active
+      slideshowContainer.appendChild(img);
+    });
+  
+    const imgElements = document.querySelectorAll("#background-slideshow img");
+    let currentIndex = 0;
+  
+    setInterval(() => {
+      imgElements[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length; // Move to the next image
+      imgElements[currentIndex].classList.add("active");
+    }, 1500); // Change every 1.5 seconds
+  });
+        // Call viewDetails() when the page loads
+        window.onload = viewDetails;
+    </script>
+
+</body>
+</html>

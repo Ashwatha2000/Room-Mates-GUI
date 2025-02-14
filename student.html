@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Upper Tab -->
+    <nav class="navbar">
+        <div class="navbar-left">
+          <img src="NUlogo.png" alt="University Logo" class="logo">
+          <span class="brand">ROOM & MATES</span>
+        </div>
+        <div class="navbar-links">
+          <a href="/dashboard.html">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+    <div class="form-container">
+        <h1>Student Login</h1>
+        <form id="loginForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p class="error" id="errorMessage"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const images = [
+      "bg1.webp",
+      "bg2.jpg",
+      "bg3.jpg",
+      "bg4.jpg",
+      "bg5.jpg",
+      "bg6.jpg",
+    ];
+  
+    const slideshowContainer = document.getElementById("background-slideshow");
+  
+    // Create image elements
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (index === 0) img.classList.add("active"); // First image is active
+      slideshowContainer.appendChild(img);
+    });
+  
+    const imgElements = document.querySelectorAll("#background-slideshow img");
+    let currentIndex = 0;
+  
+    setInterval(() => {
+      imgElements[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length; // Move to the next image
+      imgElements[currentIndex].classList.add("active");
+    }, 1500); // Change every 1.5 seconds
+  });
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const response = await fetch('/student-login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+
+            if (response.ok) {
+                window.location.href = '/page2.html';
+            } else {
+                const errorMessage = await response.text();
+                document.getElementById('errorMessage').textContent = errorMessage;
+                window.location.href = '/page1.html';
+            }
+        });
+    </script>
+</body>
+</html>

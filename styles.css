@@ -1,0 +1,309 @@
+/* Common styles for page1, page2, and other pages */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: black;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    animation: backgroundSlideshow 30s infinite;
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+@keyframes backgroundSlideshow {
+    0% { background-image: url("bg1.webp"); opacity: 1; }
+    16.66% { background-image: url("bg2.jpg"); opacity: 1; }
+    33.33% { background-image: url("bg3.png"); opacity: 1; }
+    50% { background-image: url("bg4.jpg"); opacity: 1; }
+    66.66% { background-image: url("bg5.jpg"); opacity: 1; }
+    83.33% { background-image: url("bg6.jpg"); opacity: 1; }
+    100% { background-image: url("bg1.webp"); opacity: 1; }
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: calc(100vh-6px);
+    padding: 20px;
+    margin-left: 850px;
+    margin-bottom: 50px;
+    margin-top: -500px;
+    transform: translateY(-50px)
+}
+
+.form-box {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: white;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+    width: 100%;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #000;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Styles for page1.html (Insert Roommate) */
+.page1-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    max-height: 90%;
+    overflow-y: auto;
+}
+
+.page1-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Styles for page2.html (Roommate Records) */
+.page2-container {
+    text-align: center;
+    width: 100%;  /* Allow it to occupy full width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Style for the button */
+/* Button Container */
+.page2-container {
+    text-align: center;
+    width: auto;  /* Adjust the container's width to fit the button */
+}
+
+/* Style for the button */
+.page2-container button {
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: auto;  /* Button width adjusts to content */
+    max-width: 300px;  /* Restrict the button width */
+    text-align: center;
+}
+
+.page2-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Initially hide the table */
+.page2-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ensure it takes up the full viewport height */
+    width: 100%;   /* Ensure it takes up the full viewport width */
+    text-align: center;
+    flex-direction: column; /* Ensure the button is centered even if there are other elements */
+}
+
+/* Table styling */
+.page2-table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.page2-table-container th, .page2-table-container td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.page2-table-container th {
+    background-color: #007BFF;
+    color: white;
+}
+
+.page2-table-container td button {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #FF5733;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.page2-table-container td button:hover {
+    background-color: #e04e2d;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #007BFF;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: darkred;
+}
+
+.editable-form input, .editable-form select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+}
+/* Floating Upper Tab */
+.floating-tab {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #007BFF;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    z-index: 999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 10px 20px;
+  }
+  
+  .navbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-left .logo {
+    width: 50px;
+    margin-right: 10px;
+  }
+  
+  .navbar-left .brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .navbar-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+  }
+  
+  .navbar-links a:hover {
+    text-decoration: underline;
+  }
+
+  .text{
+    color: white;
+    margin-top: 0px;
+    padding: 40px;
+    width: 400px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  
+  .logo{
+    size: 50px;
+    padding-right: 30px;
+  }
+  
+  /* Husky Image */
+  .husky-image img {
+    display: block;
+    margin-top: 300px;
+    
+    width: 300px;
+  }
+  

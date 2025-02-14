@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Roommate</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Floating Upper Tab -->
+    <nav class="navbar">
+        <div class="navbar-left">
+          <img src="NUlogo.png" alt="University Logo" class="logo">
+          <span class="brand">ROOM & MATES</span>
+        </div>
+        <div class="navbar-links">
+          <a href="/dashboard.html">Home</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+    <div class="page1-container">
+        <h1>Insert Roommate Details</h1>
+        <form id="roommateForm" action="/add-roommate" method="POST">
+            <label>Username:</label>
+            <input type="text" name="Username" required>
+            <label>Password:</label>
+            <input type="password" name="Password" required>
+            <label>First Name:</label>
+            <input type="text" name="FirstName" required>
+            <label>Last Name:</label>
+            <input type="text" name="LastName" required>
+            <label>Email:</label>
+            <input type="email" name="Email" required>
+            <label>Phone:</label>
+            <input type="tel" name="Phone" required>
+            <label>DOB:</label>
+            <input type="date" name="DOB" required>
+            <label>Address:</label>
+            <input type="text" name="Address" required>
+            <label>Gender:</label>
+            <input type="text" name="Gender" required>
+            <label>Languages:</label>
+            <input type="text" name="Languages">
+            <label>Work Experience:</label>
+            <input type="number" name="WorkExp">
+            <label>Food Habit:</label>
+            <input type="text" name="FoodHabit">
+            <label>Cleanliness Habit:</label>
+            <input type="text" name="CleanlinessHabit">
+            <label>Cooking Skills:</label>
+            <input type="text" name="CookingSkills">
+            <label>Hobbies:</label>
+            <input type="text" name="Hobbies">
+            <label>Personality:</label>
+            <input type="text" name="Personality">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const images = [
+      "bg1.webp",
+      "bg2.jpg",
+      "bg3.jpg",
+      "bg4.jpg",
+      "bg5.jpg",
+      "bg6.jpg",
+    ];
+  
+    const slideshowContainer = document.getElementById("background-slideshow");
+  
+    // Create image elements
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (index === 0) img.classList.add("active"); // First image is active
+      slideshowContainer.appendChild(img);
+    });
+  
+    const imgElements = document.querySelectorAll("#background-slideshow img");
+    let currentIndex = 0;
+  
+    setInterval(() => {
+      imgElements[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length; // Move to the next image
+      imgElements[currentIndex].classList.add("active");
+    }, 1500); // Change every 1.5 seconds
+  });
+    </script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('bg3.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Registration</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+</head>
+<body>
+    <!-- Floating Upper Tab -->
+    
+
+    <div class="container">
+        <div class="form-box" id="ownerFormContainer">
+            <h1>Owner Registration</h1>
+
+            <label for="role">Select Role:</label>
+            <select id="role" name="role" onchange="showForm()">
+                <option value="">-- Select --</option>
+                <option value="broker">Broker</option>
+                <option value="property-manager">Property Manager</option>
+            </select>
+
+            <form id="ownerForm" style="display:none;">
+                <h2 style="color: white;">Owner Information</h2>
+                <label for="firstName" >First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName" style="color: white;">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+
+                <label for="noOfProperties">No. of Properties:</label>
+                <input type="number" id="noOfProperties" name="noOfProperties" required>
+
+                <label for="contactMail" style="color: white;">Contact Mail:</label>
+                <input type="email" id="contactMail" name="contactMail" required>
+
+                <label for="officeHours">Office Hours:</label>
+                <input type="text" id="officeHours" name="officeHours" required>
+
+                <div id="brokerFields" style="display:none;">
+                    <h3 style="color: white;">Broker Information</h3>
+                    <label for="noOfClients">No. of Clients:</label>
+                    <input type="number" id="noOfClients" name="noOfClients">
+
+                    <label for="licenseNumber" style="color: white;">License Number:</label>
+                    <input type="text" id="licenseNumber" name="licenseNumber">
+
+                    <label for="rating">Rating:</label>
+                    <input type="number" id="rating" name="rating" min="1" max="5">
+                </div>
+
+                <div id="propertyManagerFields" style="display:none;">
+                    <h3>Property Manager Information</h3>
+                    <label for="noOfPropertiesManaged">No. of Properties Managed:</label>
+                    <input type="number" id="noOfPropertiesManaged" name="noOfPropertiesManaged">
+
+                    <label for="ssn">SSN:</label>
+                    <input type="text" id="ssn" name="ssn">
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Show the appropriate form based on the role selection
+        function showForm() {
+            const role = document.getElementById('role').value;
+            const ownerForm = document.getElementById('ownerForm');
+            const brokerFields = document.getElementById('brokerFields');
+            const propertyManagerFields = document.getElementById('propertyManagerFields');
+
+            // Hide all fields first
+            ownerForm.style.display = "none";
+            brokerFields.style.display = "none";
+            propertyManagerFields.style.display = "none";
+
+            if (role) {
+                ownerForm.style.display = "block"; // Show owner form
+            }
+
+            // Show specific fields based on the selected role
+            if (role === "broker") {
+                brokerFields.style.display = "block";
+            } else if (role === "property-manager") {
+                propertyManagerFields.style.display = "block";
+            }
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+    const images = [
+      "bg1.webp",
+      "bg2.jpg",
+      "bg3.jpg",
+      "bg4.jpg",
+      "bg5.jpg",
+      "bg6.jpg",
+    ];
+  
+    const slideshowContainer = document.getElementById("background-slideshow");
+  
+    // Create image elements
+    images.forEach((src, index) => {
+      const img = document.createElement("img");
+      img.src = src;
+      if (index === 0) img.classList.add("active"); // First image is active
+      slideshowContainer.appendChild(img);
+    });
+  
+    const imgElements = document.querySelectorAll("#background-slideshow img");
+    let currentIndex = 0;
+  
+    setInterval(() => {
+      imgElements[currentIndex].classList.remove("active");
+      currentIndex = (currentIndex + 1) % images.length; // Move to the next image
+      imgElements[currentIndex].classList.add("active");
+    }, 1500); // Change every 1.5 seconds
+  });
+        // Handle form submission
+        document.getElementById('ownerForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Collect form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                noOfProperties: document.getElementById('noOfProperties').value,
+                contactMail: document.getElementById('contactMail').value,
+                officeHours: document.getElementById('officeHours').value,
+            };
+
+            const role = document.getElementById('role').value;
+
+            if (role === 'broker') {
+                formData.noOfClients = document.getElementById('noOfClients').value;
+                formData.licenseNumber = document.getElementById('licenseNumber').value;
+                formData.rating = document.getElementById('rating').value;
+
+                // Submit to backend for Broker
+                await submitData('/register-broker', formData);
+            } else if (role === 'property-manager') {
+                formData.noOfPropertiesManaged = document.getElementById('noOfPropertiesManaged').value;
+                formData.ssn = document.getElementById('ssn').value;
+
+                // Submit to backend for Property Manager
+                await submitData('/register-property-manager', formData);
+            }
+        });
+
+        // Function to submit data to backend
+        async function submitData(url, data) {
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await response.json();
+                alert('Registration successful!');
+                window.location.href = `/ownerView.html?ownerID=${result.ownerID}`;
+            } catch (error) {
+                alert('Error submitting form!');
+            }
+        }
+    </script>
+
+</body>
+</html>
